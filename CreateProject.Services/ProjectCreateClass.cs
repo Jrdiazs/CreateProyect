@@ -258,7 +258,7 @@ namespace CreateProject.Services
                 if (isModelViewIsWCF)
                     lineFile.AppendLine("\t[DataContract(Name=\"ResponseData{0}\" )]");
 
-                lineFile.AppendLine(@"    public abstract class ResponseData<T>");
+                lineFile.AppendLine(@" public abstract class ResponseData<T>");
                 lineFile.AppendLine(@"    {");
                 lineFile.AppendLine(@"        public ResponseData()");
                 lineFile.AppendLine(@"        {");
@@ -266,16 +266,26 @@ namespace CreateProject.Services
                 lineFile.AppendLine(@"            Success = false;");
                 lineFile.AppendLine(@"        }");
                 lineFile.AppendLine(@"");
+                if (isModelViewIsWCF)
+                    lineFile.AppendLine(@"        [DataMember]");
                 lineFile.AppendLine(@"        public string Message { get; set; }");
-                lineFile.AppendLine(@"");
+                if (isModelViewIsWCF)
+                    lineFile.AppendLine(@"        [DataMember]");
                 lineFile.AppendLine(@"        public bool Success { get; set; }");
                 lineFile.AppendLine(@"");
+                if (isModelViewIsWCF)
+                    lineFile.AppendLine(@"        [DataMember(Name = ""Data"")]");
                 lineFile.AppendLine(@"        public T Data { get; set; }");
                 lineFile.AppendLine(@"");
-                lineFile.AppendLine(@"        public void Error(string errorMessage)");
+                if (isModelViewIsWCF)
+                    lineFile.AppendLine(@"        [DataMember(Name = ""TypeResponse"")]");
+                lineFile.AppendLine(@"        public TypeResponse TypeResponse { get; set; } = TypeResponse.Na;");
+                lineFile.AppendLine(@"");
+                lineFile.AppendLine(@"        public void Warning(string errorMessage)");
                 lineFile.AppendLine(@"        {");
                 lineFile.AppendLine(@"            Message = errorMessage;");
                 lineFile.AppendLine(@"            Success = false;");
+                lineFile.AppendLine(@"            TypeResponse = TypeResponse.Warning;");
                 lineFile.AppendLine(@"        }");
                 lineFile.AppendLine(@"");
                 lineFile.AppendLine(@"        public void Ok(T value, string message = """")");
@@ -285,12 +295,14 @@ namespace CreateProject.Services
                 lineFile.AppendLine(@"");
                 lineFile.AppendLine(@"            Message = message;");
                 lineFile.AppendLine(@"            Success = true;");
+                lineFile.AppendLine(@"            TypeResponse = TypeResponse.Succes;");
                 lineFile.AppendLine(@"        }");
                 lineFile.AppendLine(@"");
                 lineFile.AppendLine(@"        public void Ok(string message = """")");
                 lineFile.AppendLine(@"        {");
                 lineFile.AppendLine(@"            Message = message;");
                 lineFile.AppendLine(@"            Success = true;");
+                lineFile.AppendLine(@"            TypeResponse = TypeResponse.Succes;");
                 lineFile.AppendLine(@"        }");
                 lineFile.AppendLine(@"");
                 lineFile.AppendLine(@"        public void Error(Exception ex, string errorMessage = """")");
@@ -298,10 +310,43 @@ namespace CreateProject.Services
                 lineFile.AppendLine(@"            Message = $""{ex.Message}"";");
                 lineFile.AppendLine(@"            if (!string.IsNullOrWhiteSpace(errorMessage))");
                 lineFile.AppendLine(@"                Message += $""\n error: {errorMessage}"";");
+                lineFile.AppendLine(@"");
+                lineFile.AppendLine(@"            bool writeLog = bool.Parse(""writeLog"".ReadAppConfig(""false""));");
+                lineFile.AppendLine(@"");
+                lineFile.AppendLine(@"            if (writeLog)");
+                lineFile.AppendLine(@"            {");
+                lineFile.AppendLine(@"                if (!string.IsNullOrWhiteSpace(Message))");
+                lineFile.AppendLine(@"                    Logger.ErrorFatal(ex, Message);");
+                lineFile.AppendLine(@"                else");
+                lineFile.AppendLine(@"                    Logger.ErrorFatal(ex);");
+                lineFile.AppendLine(@"            }");
+                lineFile.AppendLine(@"");
                 lineFile.AppendLine(@"            Success = false;");
+                lineFile.AppendLine(@"            TypeResponse = TypeResponse.Fatal;");
                 lineFile.AppendLine(@"        }");
                 lineFile.AppendLine(@"    }");
-                lineFile.AppendLine(@"}");
+                lineFile.AppendLine(@"");
+                if (isModelViewIsWCF)
+                    lineFile.AppendLine(@"    [DataContract(Name = ""TypeResponse"")]");
+                lineFile.AppendLine(@"    public enum TypeResponse");
+                lineFile.AppendLine(@"    {");
+                if (isModelViewIsWCF)
+                    lineFile.AppendLine(@"        [EnumMember]");
+                lineFile.AppendLine(@"        Na,");
+                lineFile.AppendLine(@"");
+                if (isModelViewIsWCF)
+                    lineFile.AppendLine(@"        [EnumMember]");
+                lineFile.AppendLine(@"        Fatal,");
+                lineFile.AppendLine(@"");
+                if (isModelViewIsWCF)
+                    lineFile.AppendLine(@"        [EnumMember]");
+                lineFile.AppendLine(@"        Succes,");
+                lineFile.AppendLine(@"");
+                if (isModelViewIsWCF)
+                    lineFile.AppendLine(@"        [EnumMember]");
+                lineFile.AppendLine(@"        Warning");
+                lineFile.AppendLine(@"    }");
+
 
                 return lineFile;
             }
