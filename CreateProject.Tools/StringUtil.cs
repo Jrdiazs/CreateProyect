@@ -503,6 +503,7 @@ namespace CreateProject.Tools.String
 
                 case "varchar":
                     return "string";
+
                 case "xml":
                     return "string";
             }

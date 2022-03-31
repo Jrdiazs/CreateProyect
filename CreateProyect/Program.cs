@@ -16,7 +16,6 @@ namespace CreateProject
                 pr.CreateClassServicesModels();//Create class repository
                 pr.CreateClassResponseModels();
                 pr.CreateClassProfile();
-                
             }
             catch (Exception)
             {

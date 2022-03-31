@@ -182,7 +182,7 @@ namespace CreateProject.Services
                 var directoryProjectModelBase = Path.Combine("BaseDirectory".ReadAppConfig(), "Services/ModelView");
                 var extensionFile = ".cs";
                 string nameSpace = "Services.ModelView";
-                bool isModelViewIsWCF = bool.Parse("ModelViewIsWCF".ReadAppConfig()) ;
+                bool isModelViewIsWCF = bool.Parse("ModelViewIsWCF".ReadAppConfig());
 
                 if (Directory.Exists(directoryProjectModelBase))
                     Directory.Delete(directoryProjectModelBase, true);
@@ -196,7 +196,7 @@ namespace CreateProject.Services
                     var line = new StringBuilder();
                     line.AppendLine(@"using System;");
                     line.AppendLine(@"using System.ComponentModel.DataAnnotations;");
-                    
+
                     if (isModelViewIsWCF)
                         line.AppendLine("using System.Runtime.Serialization;");
 
@@ -204,12 +204,12 @@ namespace CreateProject.Services
                     line.AppendLine($"namespace {table.NameSpace}.{nameSpace}");
                     line.AppendLine(@"{");
                     var className = @"""" + table.ClassNameModelView + "\"";
-                    
+
                     if (isModelViewIsWCF)
                         line.AppendLine($"\t[Serializable]");
-                    if (isModelViewIsWCF) 
+                    if (isModelViewIsWCF)
                         line.AppendLine($"\t[DataContract]");
-                    
+
                     line.AppendLine($"\tpublic class {table.ClassNameModelView}");
                     line.AppendLine("\t{");
 

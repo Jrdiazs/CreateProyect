@@ -15,6 +15,7 @@ namespace CreateProject.Models
 
         public string ClassNameRepository
         { get { return $"{TableName}Repository"; } }
+
         public string ClassNameIRepository
         { get { return $"I{TableName}Repository"; } }
 
@@ -31,12 +32,16 @@ namespace CreateProject.Models
         { get { return $"{TableName}Services"; } }
 
         public string ClassNameVariableRepository
-        { get { var firstLetter = ClassNameRepository.Substring(0, 1);
+        {
+            get
+            {
+                var firstLetter = ClassNameRepository.Substring(0, 1);
                 var temp = $"{firstLetter.ToLower()}";
                 foreach (var item in ClassNameRepository.ToCharArray().Skip(1))
                     temp += item;
-                
+
                 return temp;
-            } }
+            }
+        }
     }
 }

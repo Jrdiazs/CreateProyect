@@ -71,7 +71,6 @@ namespace CreateProject.Data
         {
             try
             {
-                
                 var sqlQuery = new StringBuilder();
                 sqlQuery.AppendLine(@"SELECT");
                 sqlQuery.AppendLine(@"c.TABLE_NAME TableName,c.*");

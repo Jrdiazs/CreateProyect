@@ -18,7 +18,7 @@ namespace CreateProject.Models
                 if (string.IsNullOrWhiteSpace(IsNullable))
                     return false;
 
-                return IsNullable.ToLower() == "yes"  || IsNullable.ToLower() =="si";
+                return IsNullable.ToLower() == "yes" || IsNullable.ToLower() == "si";
             }
         }
 
