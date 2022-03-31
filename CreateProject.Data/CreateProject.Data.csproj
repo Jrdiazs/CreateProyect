@@ -112,7 +112,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connections.cs" />
-    <Compile Include="Pr.cs" />
     <Compile Include="RepositoryProject.cs" />
     <Compile Include="EnumConnectionType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
